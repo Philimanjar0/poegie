@@ -1,0 +1,2 @@
+reference_enum = ["Abyssal", "Armoursmith", "Blacksmith", "Blighted", "Cartographer", "Challenging", "Diviner", "Fine", "Foreboding", "Fossilised", "Fragmented", "Imperial", "Jeweller", "Obscured", "Singular", "Skittering", "Thaumaturge", "Timeless", "Whispering"]
+file_format = "resources/images_icons/{dname}.jpg"
