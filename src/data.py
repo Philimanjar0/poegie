@@ -1,24 +1,20 @@
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QSizeGrip, QCheckBox, QMainWindow, QTabWidget, QFileDialog 
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import QWidget, QPushButton, QLabel, QCheckBox, QFileDialog, QWidget, QCheckBox, QHBoxLayout, QGridLayout, QVBoxLayout, QGroupBox
+
+from PyQt5.QtCore import QSettings
 import math
 from common import reference_enum
-from hotkey import InputOutputManager
-from benchwindow import BenchWindow
-from togglebuttons import TargetWindowButton, FeatureEnableToggle
-from mss import mss
 import numpy as np
 
-class DataTab(QtWidgets.QWidget):
+class DataTab(QWidget):
     def __init__(self):
-        QtWidgets.QWidget.__init__(self)
+        QWidget.__init__(self)
 
-        self.settings = QtCore.QSettings('PoE', 'Hoagie')
+        self.settings = QSettings('PoE', 'Hoagie')
 
         self.data = []
         self.gridWidgets = []
-        self.parent = QtWidgets.QVBoxLayout()
-        self.button_layout = QtWidgets.QHBoxLayout()
+        self.parent = QVBoxLayout()
+        self.button_layout = QHBoxLayout()
         self.setLayout(self.parent)
         self.initFields()
         self.readSettings()
@@ -29,8 +25,8 @@ class DataTab(QtWidgets.QWidget):
         print(type(self.data[7]))
 
     def initFields(self):   
-        group = QtWidgets.QGroupBox("times rolled")
-        gridLayout = QtWidgets.QGridLayout()
+        group = QGroupBox("times rolled")
+        gridLayout = QGridLayout()
         group.setLayout(gridLayout)
         self.parent.addWidget(group)
         num_rows = 4
@@ -41,17 +37,17 @@ class DataTab(QtWidgets.QWidget):
                     # If the number of elements does not evenly fit, early exit
                     break
                 self.data.insert(single_index, 0)
-                label = QtWidgets.QLabel(reference_enum[single_index] + ": 0")
+                label = QLabel(reference_enum[single_index] + ": 0")
                 gridLayout.addWidget(label, r, c)
                 self.gridWidgets.insert(single_index, label)
 
     def addResetButton(self):
-        button = QtWidgets.QPushButton("reset data")
+        button = QPushButton("reset data")
         button.clicked.connect(self.reset)
         self.button_layout.addWidget(button)
 
     def addSaveButton(self):
-        button = button = QtWidgets.QPushButton("export to csv")
+        button = button = QPushButton("export to csv")
         button.clicked.connect(self.openFileDialog)
         self.button_layout.addWidget(button)
 

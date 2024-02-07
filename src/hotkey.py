@@ -1,4 +1,5 @@
 from ahk import AHK
+from ahk._sync.transport import AhkExecutableNotFoundError
 from ahk.directives import MaxHotkeysPerInterval, NoTrayIcon
 import clipboard
 
@@ -8,7 +9,11 @@ class InputOutputManager:
             MaxHotkeysPerInterval(value=1000, apply_to_hotkeys_process=True),
             NoTrayIcon(apply_to_hotkeys_process=True)
         ]
-        self.ahk = AHK(directives=directives)
+        try:
+            self.ahk = AHK(directives=directives)
+        except AhkExecutableNotFoundError as e:
+            ErrorPopup("Could not start AutoHotKey. It is likely not installed. \nPlease click \"Show Details\" for an automatic download link", "https://www.autohotkey.com/download/ahk-install.exe", True)
+
         # self.ahk.add_hotkey('LButton', callback=lambda : self.callback(input='LButton'))
         # [x] TODO change this back to LMouse
         self.ahk.add_hotkey('LButton up', callback=lambda : self.ahk.key_up('LButton'))

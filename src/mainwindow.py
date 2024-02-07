@@ -1,21 +1,20 @@
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QSizeGrip, QCheckBox, QMainWindow, QTabWidget
-from PyQt5.QtGui import QIcon, QPixmap
 import math
-from common import reference_enum
-from hotkey import InputOutputManager
+import numpy as np
+
 from benchwindow import BenchWindow
-from togglebuttons import TargetWindowButton, FeatureEnableToggle
-from mss import mss
+from calcstab import CalcsTab
+from common import reference_enum
 from compare import ImageProcessor
 from configtab import ConfigTab
-from calcstab import CalcsTab
 from data import DataTab
 from debugtab import DebugTab
-import clipboard
-import os
+from errorpopup import ErrorPopup
+from hotkey import InputOutputManager
+from mss import mss
+from PyQt5.QtCore import QSize, QPoint, QSettings, Qt
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QTabWidget
+from togglebuttons import TargetWindowButton, FeatureEnableToggle
 from WindowFocusManager import WindowFocusManager
-import numpy as np
 
 # must do (0.1.0)
 # [x] get the config tab working, finish the refactor
@@ -73,19 +72,19 @@ import numpy as np
 
 
 
-class Main(QtWidgets.QMainWindow):
+class Main(QMainWindow):
     def __init__(self, close_callback):
-        QtWidgets.QMainWindow.__init__(self)
+        QMainWindow.__init__(self)
         
         ## declare variables
         self.last_seen = -1
         self.selected_for_stop = []
-        self.settings = QtCore.QSettings('PoE', 'Hoagie')
+        self.settings = QSettings('PoE', 'Hoagie')
         self.close_callback = close_callback
 
         ## window setup
         tabs = QTabWidget()
-        self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.setCentralWidget(tabs)
         self.configTab = ConfigTab()
         self.calcsTab = CalcsTab()
@@ -94,7 +93,7 @@ class Main(QtWidgets.QMainWindow):
         self.button_pressed_last = False
         self.imageProcessor = ImageProcessor()
         self.windowFocusManager = WindowFocusManager()
-        self.hotkeys_manager = InputOutputManager(input_passthrough_condition=lambda pos : self.trigger_check(pos))
+        self.hotkeys_manager = InputOutputManager(input_passthrough_condition=lambda pos : self.trigger_check(pos))  
         
         tabs.addTab(self.configTab, "config")
         tabs.addTab(self.calcsTab, "calculator")
@@ -219,6 +218,6 @@ class Main(QtWidgets.QMainWindow):
 
     def init_window_settings(self):
         screen_size =  QApplication.primaryScreen().availableGeometry()
-        self.resize(self.settings.value("main.size", QtCore.QSize(self.width(), 120)))
+        self.resize(self.settings.value("main.size", QSize(self.width(), 120)))
         self.move(self.settings.value("main.pos", 
-            QtCore.QPoint(math.floor(screen_size.width()/2 - math.floor(self.width()/2)), math.floor(screen_size.height()/5 * 4))))
+            QPoint(math.floor(screen_size.width()/2 - math.floor(self.width()/2)), math.floor(screen_size.height()/5 * 4))))

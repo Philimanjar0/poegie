@@ -1,20 +1,19 @@
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QSizeGrip, QCheckBox, QMainWindow, QTabWidget
-from PyQt5.QtGui import QIcon, QPixmap
 import math
-from common import reference_enum
-from hotkey import InputOutputManager
+
 from benchwindow import BenchWindow
-from togglebuttons import TargetWindowButton, FeatureEnableToggle
+from common import reference_enum
 from mss import mss
+from PyQt5.QtCore import QSettings
+from PyQt5.QtWidgets import QWidget, QCheckBox, QHBoxLayout, QGridLayout
+from togglebuttons import TargetWindowButton, FeatureEnableToggle
 
-class ConfigTab(QtWidgets.QWidget):
+class ConfigTab(QWidget):
     def __init__(self):
-        QtWidgets.QWidget.__init__(self)
+        QWidget.__init__(self)
 
-        self.settings = QtCore.QSettings('PoE', 'Hoagie')
+        self.settings = QSettings('PoE', 'Hoagie')
 
-        layout = QtWidgets.QHBoxLayout()
+        layout = QHBoxLayout()
         self.setLayout(layout)
 
         self.selected_for_stop = []
@@ -47,8 +46,8 @@ class ConfigTab(QtWidgets.QWidget):
                 self.selected_for_stop.insert(i, True)
 
     def generate_selection_buttons(self):
-        selection_layout = QtWidgets.QGridLayout()
-        sel_wid = QtWidgets.QWidget(self)
+        selection_layout =QGridLayout()
+        sel_wid = QWidget(self)
         sel_wid.setLayout(selection_layout)
         
         num_rows = 4

@@ -1,10 +1,4 @@
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QSizeGrip, QCheckBox, QMainWindow
-from PyQt5.QtGui import QIcon, QPixmap
-import math
-from common import reference_enum
-from hotkey import InputOutputManager
-from benchwindow import BenchWindow
+from PyQt5.QtWidgets import QPushButton
 
 class TargetWindowButton(QPushButton):
     def __init__(self, callback):

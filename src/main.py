@@ -1,8 +1,9 @@
-from PyQt5 import QtWidgets
-from mainwindow import Main
 import sys
 
-app = QtWidgets.QApplication([])
+from mainwindow import Main
+from PyQt5.QtWidgets import QApplication
+
+app = QApplication([])
 
 def app_shutdown(event):
     app.quit()

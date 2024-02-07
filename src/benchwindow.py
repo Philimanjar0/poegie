@@ -1,17 +1,16 @@
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QSizeGrip, QCheckBox, QMainWindow
-from PyQt5.QtGui import QIcon, QPixmap
 import math
-from common import reference_enum
-from hotkey import InputOutputManager
 
-class BenchWindow(QtWidgets.QMainWindow):
+from PyQt5.QtCore import QSettings, Qt, QSize, QRect, QPoint
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import QLabel, QSizeGrip, QMainWindow, QApplication
+
+class BenchWindow(QMainWindow):
     def __init__(self):
-        self.settings = QtCore.QSettings('PoE', 'Hoagie')
-        QtWidgets.QMainWindow.__init__(self)
-        self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.Window)
-        self.setAttribute(QtCore.Qt.WA_NoSystemBackground, True)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
+        self.settings = QSettings('PoE', 'Hoagie')
+        QMainWindow.__init__(self)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Window)
+        self.setAttribute(Qt.WA_NoSystemBackground, True)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
 
         self.oldPos = None
         label = QLabel(self)
@@ -49,7 +48,7 @@ class BenchWindow(QtWidgets.QMainWindow):
         self.bench_button_rect = self.updateCraftButtonRectangle()
 
     def mousePressEvent(self, event):
-        if event.button() == QtCore.Qt.MouseButton.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             self.oldPos = event.globalPos()
 
     def mouseMoveEvent(self, event):
@@ -65,14 +64,14 @@ class BenchWindow(QtWidgets.QMainWindow):
         self.oldPos = None
 
     def updateCraftButtonRectangle(self):
-        return QtCore.QRect(
+        return QRect(
             math.floor(self.size().width() * 0.18 + self.pos().x()),
             math.floor(self.size().height() * 0.80 + self.pos().y()), 
             math.floor(self.size().width() * (0.83 - 0.18)),
             math.floor(self.size().height() * (0.89 - 0.80)))
 
     def updateCraftWindowRectangle(self):
-        return QtCore.QRect(
+        return QRect(
             math.floor(self.size().width() * 0.29 + self.pos().x()),
             math.floor(self.size().height() * 0.15 + self.pos().y()), 
             math.floor(self.size().width() * (0.71 - 0.29)),
@@ -80,5 +79,5 @@ class BenchWindow(QtWidgets.QMainWindow):
 
     def init_window_settings(self):
         screen_size =  QApplication.primaryScreen().availableGeometry()
-        self.resize(self.settings.value("bench.size", QtCore.QSize(self.width(), self.height())))
-        self.move(self.settings.value("bench.pos", QtCore.QPoint(50, 50)))
+        self.resize(self.settings.value("bench.size", QSize(self.width(), self.height())))
+        self.move(self.settings.value("bench.pos", QPoint(50, 50)))

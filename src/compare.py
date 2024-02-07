@@ -1,12 +1,7 @@
 #!/usr/bin/env python
-import sys
-import fileinput
 import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
 import math
-import time
-from hotkey import InputOutputManager
 from common import reference_enum, file_format
 
 KERNEL_EROSION = np.ones((5, 5), np.uint8)

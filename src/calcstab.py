@@ -1,58 +1,52 @@
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QSizeGrip, QCheckBox, QMainWindow, QTabWidget
-from PyQt5.QtGui import QIcon, QPixmap
-import math
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox, QLineEdit, QComboBox
 from common import reference_enum
-from hotkey import InputOutputManager
-from benchwindow import BenchWindow
-from togglebuttons import TargetWindowButton, FeatureEnableToggle
-from mss import mss
 
-class CalcsTab(QtWidgets.QWidget):
+class CalcsTab(QWidget):
     def __init__(self):
-        QtWidgets.QWidget.__init__(self)
+        QWidget.__init__(self)
 
         # [ ] TODO use settings
         # self.settings = QtCore.QSettings('PoE', 'Hoagie')
 
-        mainLayout = QtWidgets.QHBoxLayout()
+        mainLayout = QHBoxLayout()
         self.setLayout(mainLayout)
 
-        entryLayout = QtWidgets.QVBoxLayout()
+        entryLayout = QVBoxLayout()
         self.layout().addLayout(entryLayout, 3)
 
         self.addedFieldOptions = []
 
         # Static costs fields
         # life force per divine and bulk orb per divine
-        costsGroup = QtWidgets.QGroupBox("base costs (per divine)")
-        statics = QtWidgets.QVBoxLayout()
+        costsGroup = QGroupBox("base costs (per divine)")
+        statics =QVBoxLayout()
         costsGroup.setLayout(statics)
         entryLayout.addWidget(costsGroup)
         self.lifeforceEntry = self.addStaticRow("lifeforce", statics)
         self.bulkEntry = self.addStaticRow("bulk orb", statics)
 
         # User input for returns
-        revenueGroup = QtWidgets.QGroupBox("returns (per divine)")
-        returns = QtWidgets.QVBoxLayout()
-        self.returnsChild = QtWidgets.QVBoxLayout()
+        revenueGroup = QGroupBox("returns (per divine)")
+        returns = QVBoxLayout()
+        self.returnsChild = QVBoxLayout()
         returns.addLayout(self.returnsChild)
         revenueGroup.setLayout(returns)
         entryLayout.addWidget(revenueGroup)
 
         # output text
-        outputGroup = QtWidgets.QGroupBox("profits (in divines)")
-        output = QtWidgets.QVBoxLayout()
+        outputGroup = QGroupBox("profits (in divines)")
+        output = QVBoxLayout()
         outputGroup.setLayout(output)
         mainLayout.addWidget(outputGroup)
-        self.outputText = QtWidgets.QLabel()
-        self.outputText.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.outputText = QLabel()
+        self.outputText.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         output.addWidget(self.outputText)
         
         # add buttons and things
         mainLayout.addWidget(outputGroup, 7)
         returns.addLayout(self.addOutcomeSelection())
-        calculateButton = QtWidgets.QPushButton("calc avg profit")
+        calculateButton = QPushButton("calc avg profit")
         calculateButton.clicked.connect(lambda event : self.calcAndDisplayProfits())
         entryLayout.addWidget(calculateButton)
 
@@ -88,10 +82,10 @@ class CalcsTab(QtWidgets.QWidget):
         self.outputText.setText("per orb: " + str(round(profit, 4)) + "\n percent return: " + str(round((profit/totalCost) * 100, 0)) + " %")
 
     def addFormField(self, key):
-        horizontalLayout = QtWidgets.QHBoxLayout()
-        horizontalLayout.addWidget(QtWidgets.QLabel(key), 4)
-        horizontalLayout.addWidget(QtWidgets.QLineEdit(), 6)
-        button = QtWidgets.QPushButton("x")
+        horizontalLayout = QHBoxLayout()
+        horizontalLayout.addWidget(QLabel(key), 4)
+        horizontalLayout.addWidget(QLineEdit(), 6)
+        button = QPushButton("x")
         button.setMinimumWidth(7)
         button.setStyleSheet("background-color : red")
 
@@ -100,10 +94,10 @@ class CalcsTab(QtWidgets.QWidget):
         return horizontalLayout
 
     def addOutcomeSelection(self):
-        horizontalLayout = QtWidgets.QHBoxLayout()
-        self.selectioncombo = QtWidgets.QComboBox()
+        horizontalLayout = QHBoxLayout()
+        self.selectioncombo = QComboBox()
         self.selectioncombo.addItems(reference_enum)
-        button = QtWidgets.QPushButton("add")
+        button = QPushButton("add")
         button.setMinimumWidth(20)
         button.clicked.connect(lambda event : self.addRow(event))
         horizontalLayout.addWidget(self.selectioncombo, 8)
@@ -112,9 +106,9 @@ class CalcsTab(QtWidgets.QWidget):
         return horizontalLayout
 
     def addStaticRow(self, key, parent):
-        horizontalLayout = QtWidgets.QHBoxLayout()
-        horizontalLayout.addWidget(QtWidgets.QLabel(key), 3)
-        inputBox = QtWidgets.QLineEdit()
+        horizontalLayout = QHBoxLayout()
+        horizontalLayout.addWidget(QLabel(key), 3)
+        inputBox = QLineEdit()
         horizontalLayout.addWidget(inputBox, 7)
         parent.addLayout(horizontalLayout)
         return inputBox

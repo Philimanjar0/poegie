@@ -1,54 +1,47 @@
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QSizeGrip, QCheckBox, QMainWindow, QTabWidget
-from PyQt5.QtGui import QIcon, QPixmap
-import math
-from common import reference_enum
-from hotkey import InputOutputManager
-from benchwindow import BenchWindow
-from togglebuttons import TargetWindowButton, FeatureEnableToggle
+from PyQt5.QtWidgets import QWidget, QPushButton, QHBoxLayout, QLineEdit
 from mss import mss
 from compare import ImageProcessor
 import cv2 as cv2
 import numpy as np
 
 
-class DebugTab(QtWidgets.QWidget):
+class DebugTab(QWidget):
     def __init__(self, target_window):
-        QtWidgets.QWidget.__init__(self)
+        QWidget.__init__(self)
         
         self.image_processor = ImageProcessor()
         self.target_window = target_window
 
-        layout = QtWidgets.QHBoxLayout()
+        layout = QHBoxLayout()
 
-        button_raw = QtWidgets.QPushButton("raw")
+        button_raw = QPushButton("raw")
         button_raw.clicked.connect(lambda event : self.show(self.grab(), "raw"))
         layout.addWidget(button_raw)
 
-        button_thresh = QtWidgets.QPushButton("thresh")
+        button_thresh = QPushButton("thresh")
         button_thresh.clicked.connect(lambda event : self.show(self.threshold()[1], "threshold"))
         layout.addWidget(button_thresh)
 
-        button_key = QtWidgets.QPushButton("keypoints")
+        button_key = QPushButton("keypoints")
         button_key.clicked.connect(lambda event : self.show(self.keypoints()[1], "keypoints"))
         layout.addWidget(button_key)
 
-        button_icon = QtWidgets.QPushButton("icon")
+        button_icon = QPushButton("icon")
         button_icon.clicked.connect(lambda event : self.show(self.icon(), "crop"))
         layout.addWidget(button_icon)
 
-        button_histo = QtWidgets.QPushButton("hist")
+        button_histo = QPushButton("hist")
         button_histo.clicked.connect(lambda event : self.histogram())
         layout.addWidget(button_histo)
 
-        button_save = QtWidgets.QPushButton("save")
+        button_save = QPushButton("save")
         button_save.clicked.connect(lambda event : self.save())
         layout.addWidget(button_save)
 
-        self.text = QtWidgets.QLineEdit()
+        self.text = QLineEdit()
         layout.addWidget(self.text)
 
-        button_class = QtWidgets.QPushButton("classify")
+        button_class = QPushButton("classify")
         button_class.clicked.connect(lambda event : self.classify())
         layout.addWidget(button_class)
 

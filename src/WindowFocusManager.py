@@ -9,6 +9,8 @@ class WindowFocusManager():
         windowsAtLocation = gw.getWindowsAt(tup[0], tup[1])
         visibleWindows = []
         for window in windowsAtLocation:
+            # I need the handle, dont care that its "protected"
+            # This library kinda sucks anyways
             if (win32gui.IsWindowVisible(window._hWnd)):
                 visibleWindows.append(window._hWnd)
                 # print(str(win32gui.GetWindowText(window._hWnd)))
@@ -16,6 +18,7 @@ class WindowFocusManager():
     
     def shouldPoeBeInFocus(self):
         try:
+            # Same here, I need the handle, dont care that its "protected"
             poe_win_hwnd = gw.getWindowsWithTitle("Path of Exile")[0]._hWnd
         except:
             print("no window found, poe might not be running")
