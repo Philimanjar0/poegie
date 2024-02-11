@@ -17,7 +17,7 @@ class TargetWindowButton(QPushButton):
 
 class FeatureEnableToggle(QPushButton):
     def __init__(self, callback):
-        super(FeatureEnableToggle, self).__init__("enable stopping")
+        super(FeatureEnableToggle, self).__init__("allow input blocking")
         self.toggle_state = False
         self.clicked.connect(self.handle_button_update)
         self.callback = callback
@@ -26,7 +26,7 @@ class FeatureEnableToggle(QPushButton):
     def handle_button_update(self):
         self.callback()
         if (self.toggle_state):
-            self.setText("ENABLE")
+            self.setText("allow input blocking")
             self.setStyleSheet("background-color : green")
         else:
             self.setText("DISABLE")

@@ -1,7 +1,18 @@
 import sys
+import os
 
+from datetime import datetime
 from mainwindow import Main
 from PyQt5.QtWidgets import QApplication
+
+import sys
+
+# Set a log file
+# if (not os.path.isdir('logs')):
+#     os.mkdir('logs')
+
+# time_affix = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+# sys.stdout = open(f'logs/log_{time_affix}.txt', 'w')
 
 app = QApplication([])
 
@@ -17,6 +28,7 @@ def excepthook(exctype, value, traceback):
     print(traceback.tb_frame)
     print("exiting immediately")
     main.close()
+    sys.stdout.close()
     sys.exit()
 
 sys.excepthook = excepthook

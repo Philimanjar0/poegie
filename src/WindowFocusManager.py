@@ -2,7 +2,6 @@ import pygetwindow as gw
 import win32gui
 import win32api
 
-
 class WindowFocusManager():
     def getVisibleWindowsAtCursor(self):
         tup = win32api.GetCursorPos()
@@ -13,24 +12,18 @@ class WindowFocusManager():
             # This library kinda sucks anyways
             if (win32gui.IsWindowVisible(window._hWnd)):
                 visibleWindows.append(window._hWnd)
-                # print(str(win32gui.GetWindowText(window._hWnd)))
         return visibleWindows
     
     def shouldPoeBeInFocus(self):
-        try:
-            # Same here, I need the handle, dont care that its "protected"
-            poe_win_hwnd = gw.getWindowsWithTitle("Path of Exile")[0]._hWnd
-        except:
-            print("no window found, poe might not be running")
+        # Same here, I need the handle, dont care that its "protected"
+        windows = gw.getWindowsWithTitle("Path of Exile")
+        if len(windows) < 1:
+            return False
         else:
+            poe_win_hwnd = windows[0]._hWnd
             processed_windows = self.getVisibleWindowsAtCursor()
-            # print(f"poe window is {poe_win_hwnd}")
             if processed_windows[0] == poe_win_hwnd:
-                # print("Top is poe")
                 return True
-            # else:
-            #     print("top is not poe")
-            #     print(f"top is: {str(win32gui.GetWindowText(processed_windows[0]))}")
         return False
 
     def putPoeInFocus(self):

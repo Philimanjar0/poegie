@@ -23,6 +23,7 @@ class BenchWindow(QMainWindow):
 
         self.bench_craft_rect = self.updateCraftWindowRectangle()
         self.bench_button_rect = self.updateCraftButtonRectangle()
+        self.window_hitbox = self.updateWindowHitbox()
 
         self.gripSize = 16
         self.grips = []
@@ -46,6 +47,7 @@ class BenchWindow(QMainWindow):
         self.label.resize(self.width(), self.height())
         self.bench_craft_rect = self.updateCraftWindowRectangle()
         self.bench_button_rect = self.updateCraftButtonRectangle()
+        self.window_hitbox = self.updateWindowHitbox()
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
@@ -59,16 +61,17 @@ class BenchWindow(QMainWindow):
                 self.oldPos = event.globalPos()
                 self.bench_craft_rect = self.updateCraftWindowRectangle()
                 self.bench_button_rect = self.updateCraftButtonRectangle()
+                self.window_hitbox = self.updateWindowHitbox()
 
     def mouseReleaseEvent(self, event):
         self.oldPos = None
 
     def updateCraftButtonRectangle(self):
         return QRect(
-            math.floor(self.size().width() * 0.18 + self.pos().x()),
-            math.floor(self.size().height() * 0.80 + self.pos().y()), 
-            math.floor(self.size().width() * (0.83 - 0.18)),
-            math.floor(self.size().height() * (0.89 - 0.80)))
+            math.floor(self.size().width() * 0.17 + self.pos().x()),
+            math.floor(self.size().height() * 0.79 + self.pos().y()), 
+            math.floor(self.size().width() * (0.84 - 0.17)),
+            math.floor(self.size().height() * (0.90 - 0.79)))
 
     def updateCraftWindowRectangle(self):
         return QRect(
@@ -76,6 +79,17 @@ class BenchWindow(QMainWindow):
             math.floor(self.size().height() * 0.15 + self.pos().y()), 
             math.floor(self.size().width() * (0.71 - 0.29)),
             math.floor(self.size().height() * (0.67 - 0.15)))
+
+    def updateWindowHitbox(self):
+        size_mult_x = 0.007
+        size_mult_y = 0.015
+        if (self.bench_craft_rect == None):
+            return None
+        return self.bench_craft_rect.adjusted(
+            math.floor((self.bench_craft_rect.left() * (1.0 - size_mult_x)) - self.bench_craft_rect.left()),
+            math.floor((self.bench_craft_rect.top() * (1.0 - size_mult_y)) - self.bench_craft_rect.top()),
+            math.floor((self.bench_craft_rect.right() * (1.0 + size_mult_x)) - self.bench_craft_rect.right()),
+            math.floor((self.bench_craft_rect.bottom() * (1.0 + size_mult_y)) - self.bench_craft_rect.bottom()))
 
     def init_window_settings(self):
         screen_size =  QApplication.primaryScreen().availableGeometry()

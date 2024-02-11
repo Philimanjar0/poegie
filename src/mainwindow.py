@@ -31,6 +31,7 @@ from WindowFocusManager import WindowFocusManager
 #       [x] if keypoints != 1, do nothing
 #   [x] img process when removing from the window
 # [x] full flowchart for adding, removing, clicking button, etc. 
+# [ ] hitbox adjustment for the button and window
 # [x] Data Tab
 #   [x] update data dynamically
 #   [x] Some sort of export, not even copy past works
@@ -40,7 +41,7 @@ from WindowFocusManager import WindowFocusManager
 #   [ ] clean up imports
 #   [ ] documentation of methods
 #   [ ] requirements.txt
-#   [ ] logging https://stackoverflow.com/questions/6386698/how-to-write-to-a-file-using-the-logging-python-module
+#   [x] logging https://stackoverflow.com/questions/6386698/how-to-write-to-a-file-using-the-logging-python-module
 #   [ ] remake git repo with good structure
 #   [ ] readme
 #   [ ] build executable
@@ -129,27 +130,7 @@ class Main(QMainWindow):
         else:
             self.selected_for_stop[index] = False
 
-        """
-        flag button = false
-
-        if press button (successful orb result ie somethings in there)
-            button = true
-            item = classifyImage()
-            if previous click was not button:
-                do nothing
-            else
-                increment(item)
-
-        if press in window
-            if button == true
-                increment
-            else
-                do nothing
-            button = false
-        """
-
     def trigger_check(self, mouse_position):
-        # [x] TODO clean this up, to be better if nests. Flowchart is not right. Image processing and incrementing stored data needs to be seperate.
         if self.windowFocusManager.shouldPoeBeInFocus():
             # This is to solve, where the user has another window in focus (such as the app) in front of poe.
             # If they do, and they click on the item in the bench, then copying the item text does not work, because the keyboard focus is not POE.
@@ -178,8 +159,8 @@ class Main(QMainWindow):
                 self.button_pressed_last = True
                 self.last_seen = imageFound
                 return True
-            # Press was in the crafting window
-            elif (self.configTab.target_window.bench_craft_rect.contains(mouse_position[0], mouse_position[1])):
+            elif (self.configTab.target_window.window_hitbox.contains(mouse_position[0], mouse_position[1])):
+                # Press was in the crafting window
                 print("window clicked")
                 if (self.button_pressed_last == True):
                     itemInWindow = self.parseText()
@@ -209,12 +190,10 @@ class Main(QMainWindow):
         try:
             name = ((copiedText.split("\n")[2]).split(" ")[0]).split("\'")[0]
             index = reference_enum.index(name)
-            # print(f"index found from parsing text {index} resultant name {name}")
             return index
         except Exception as e:
             print(f"Could not parse text {copiedText}. Skipping increment step.")
         return -1
-
 
     def init_window_settings(self):
         screen_size =  QApplication.primaryScreen().availableGeometry()

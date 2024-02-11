@@ -20,7 +20,7 @@ class CalcsTab(QWidget):
         # Static costs fields
         # life force per divine and bulk orb per divine
         costsGroup = QGroupBox("base costs (per divine)")
-        statics =QVBoxLayout()
+        statics = QVBoxLayout()
         costsGroup.setLayout(statics)
         entryLayout.addWidget(costsGroup)
         self.lifeforceEntry = self.addStaticRow("lifeforce", statics)

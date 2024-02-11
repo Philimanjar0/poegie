@@ -4,7 +4,7 @@ from benchwindow import BenchWindow
 from common import reference_enum
 from mss import mss
 from PyQt5.QtCore import QSettings
-from PyQt5.QtWidgets import QWidget, QCheckBox, QHBoxLayout, QGridLayout
+from PyQt5.QtWidgets import QWidget, QCheckBox, QHBoxLayout, QGridLayout, QGroupBox
 from togglebuttons import TargetWindowButton, FeatureEnableToggle
 
 class ConfigTab(QWidget):
@@ -46,9 +46,9 @@ class ConfigTab(QWidget):
                 self.selected_for_stop.insert(i, True)
 
     def generate_selection_buttons(self):
-        selection_layout =QGridLayout()
-        sel_wid = QWidget(self)
-        sel_wid.setLayout(selection_layout)
+        costsGroup = QGroupBox("block reroll for:")
+        selection_layout = QGridLayout()
+        costsGroup.setLayout(selection_layout)
         
         num_rows = 4
         for c in range(math.ceil(len(reference_enum)/num_rows)):
@@ -66,23 +66,16 @@ class ConfigTab(QWidget):
                 checkbox.stateChanged.connect(lambda value, index=single_index : self.handle_selection_change(value, index))
                 selection_layout.addWidget(checkbox, r, c)
         # return the widget containing the checkboxes
-        return sel_wid
+        return costsGroup
 
     def should_stop_on_index(self, index):
         return self.selected_for_stop[index]
 
     def close(self):
         print("CLOSING CONFIG TAB")
-        # self.settings.setValue("main.size", self.size())
-        # self.settings.setValue("main.pos", self.pos())
-
         self.settings.setValue("bench.size", self.target_window.size())
         self.settings.setValue("bench.pos", self.target_window.pos())
-
         self.settings.setValue("selection", self.selected_for_stop)
-
-        # self.hotkeys_manager.stop()
-        # self.close_callback(event)
 
     def handle_selection_change(self, value, index):
         if (value == 2):
