@@ -51,11 +51,8 @@ Historically, external overlays and tools are generally okay if they do not aid 
 
 # Bug reporting
 You have two options for bug reporting
-- There is a bug report/feature request channel in the discord (link in sidebar).
+- There is a bug report/feature request channel in the [discord](https://discord.gg/EhKBMFpZ).
 - Create a github issue
 
 # Help and discussion
 Join the discord for help, bugs, discussion, and whatever else. 
-
-# I found a bug
-You can either file a bug in the [discord](https://discord.gg/EhKBMFpZ) server, or create a github issue here. 
