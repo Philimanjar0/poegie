@@ -1,3 +1,4 @@
+# Poegie
 Poegie is as delirium orb reroll and data collection tool. It is a deli roll (hoagie, like the sandwich) for path of exile (poe) so. Thus, poegie. 
 
 The main features are: aid to help prevent rerolling over desired deli orbs in the harvest bench, a profits calculator, and data collection to keep track of what deli orbs you have rolled. It is designed to be Path of Exile ToS compliant.
@@ -17,7 +18,7 @@ Download and install v1.X (not version 2) from the [ahk website](https://www.aut
 - If you want to see some logging, you can run it from a command prompt instead.
 
 ## Side Dishes
-I recommend using X-Mouse Button Control and binding
+I recommend using X-Mouse Button Control and binding scroll wheel up/down to left click, and configure it for PoE only. This is helpful in general, but particularly helpful for rolling the the harvest bench when you cannot roll over what you want.
 
 # How to use
 There are 3 tabs that each do their own thing: config, profits calculator, and data collection. The config tab is the main tab used for rerolling. The other two tabs are helpful as references.
@@ -47,6 +48,14 @@ Historically, external overlays and tools are generally okay if they do not aid 
 - Poegie does not interact with an GGG online services or API.
 
 *If there are any ToS concerns, especially if you are GGG staff. Please contact me directly. This is intended as tool and service for the community, not a weapon to create an unfair advantage for its users.
+
+# Bug reporting
+You have two options for bug reporting
+- There is a bug report/feature request channel in the discord (link in sidebar).
+- Create a github issue
+
+# Help and discussion
+Join the discord for help, bugs, discussion, and whatever else. 
 
 # I found a bug
 You can either file a bug in the [discord](https://discord.gg/EhKBMFpZ) server, or create a github issue here. 
