@@ -8,14 +8,12 @@ class WindowFocusManager():
         windowsAtLocation = gw.getWindowsAt(tup[0], tup[1])
         visibleWindows = []
         for window in windowsAtLocation:
-            # I need the handle, dont care that its "protected"
-            # This library kinda sucks anyways
+            # Need the handle, dont care that its a "protected" field, its not exposed by a getter.
             if (win32gui.IsWindowVisible(window._hWnd)):
                 visibleWindows.append(window._hWnd)
         return visibleWindows
     
     def shouldPoeBeInFocus(self):
-        # Same here, I need the handle, dont care that its "protected"
         windows = gw.getWindowsWithTitle("Path of Exile")
         if len(windows) < 1:
             return False

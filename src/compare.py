@@ -29,14 +29,10 @@ class ImageProcessor():
         img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
         _, thresh = cv.threshold(img_gray, 25, 255, cv.THRESH_BINARY_INV)
-        # thresh = cv.inRange(img, (0, 0, 0), (12, 12, 35))
         
         # Dilate image for cleaner blob detection
         img_dilation = cv.erode(thresh, KERNEL_EROSION, iterations=2)
-        # img_dilation = thresh
 
-        # Add a 1px border in case the dilation hit the edge of the image.
-        # img_dilation = cv.copyMakeBorder(img_dilation, 1, 1, 1, 1, cv.BORDER_CONSTANT, value=255)
         return img_dilation, cv.bitwise_and(img, img, mask=cv.bitwise_not(img_dilation))
 
     def find_keypoints(self, threshold_image, image):
@@ -69,9 +65,6 @@ class ImageProcessor():
             histr = cv.calcHist([image],[i],None,[BINS],[0,255])
             ar = np.hstack((ar, histr))
         ar = ar / pix
-        # histogram shape (64, 3)
-        print("histogram shape " + str(ar.shape))
-        # return ar.flatten().astype(np.float32)
         return ar.astype(np.float32)
 
     def generate_data_csv(self):
@@ -113,8 +106,6 @@ class ImageProcessor():
 
     def classify_raw_image(self, raw):
         """Classify an unprocessed image. Returns the index of the closest match in the reference enum."""
-
-        # [x] this doesnt work!!
 
         threshold, combined_mask = self.find_mask(raw)
         keypoints, combined_keypoints = self.find_keypoints(threshold, raw)

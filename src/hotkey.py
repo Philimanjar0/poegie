@@ -14,12 +14,8 @@ class InputOutputManager:
         except AhkExecutableNotFoundError as e:
             ErrorPopup("Could not start AutoHotKey. It is likely not installed. \nPlease click \"Show Details\" for an automatic download link", "https://www.autohotkey.com/download/ahk-install.exe", True)
 
-        # self.ahk.add_hotkey('LButton', callback=lambda : self.callback(input='LButton'))
-        # [x] TODO change this back to LMouse
         self.ahk.add_hotkey('LButton up', callback=lambda : self.ahk.key_up('LButton'))
-        # self.ahk.add_hotkey('^LButton up', callback=lambda : self.ahk.key_up('^LButton'))
         self.ahk.add_hotkey('LButton', callback=lambda : self.callback('LButton'))
-        # self.ahk.add_hotkey('^LButton', callback=lambda : self.callback('^LButton'))
         self.input_passthrough_condition = input_passthrough_condition
         self.start()
 
@@ -31,9 +27,8 @@ class InputOutputManager:
         lastClipboard = clipboard.paste()
         clipboard.copy('')
         self.ahk.send_input('^c')
-        # block and wait for the clipboard to be updated with new text, this can be slow on windows.
+        # block and wait for the clipboard to be updated with new text, this can be slow on windows for some reason?
         # 0.25 second timeout.
-        # [ ] TODO fix this, timeout is failing
         self.ahk.clip_wait(timeout=0.1, blocking=True, wait_for_any_data=True)
         data = clipboard.paste()
         clipboard.copy(lastClipboard)

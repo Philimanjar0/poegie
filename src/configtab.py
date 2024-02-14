@@ -59,7 +59,6 @@ class ConfigTab(QWidget):
                     break
                 checkbox = QCheckBox(reference_enum[single_index])
                 if (len(self.selected_for_stop) <= single_index):
-                    print("inserting default")
                     self.selected_for_stop.insert(single_index, False)
                 elif (self.selected_for_stop[single_index]):
                     checkbox.setChecked(2)
@@ -82,4 +81,3 @@ class ConfigTab(QWidget):
             self.selected_for_stop[index] = True
         else:
             self.selected_for_stop[index] = False
-        print(self.selected_for_stop)

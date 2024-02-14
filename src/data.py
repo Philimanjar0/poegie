@@ -21,8 +21,6 @@ class DataTab(QWidget):
         self.parent.addLayout(self.button_layout)
         self.addResetButton()
         self.addSaveButton()
-        print(self.data)
-        print(type(self.data[7]))
 
     def initFields(self):   
         group = QGroupBox("times rolled")

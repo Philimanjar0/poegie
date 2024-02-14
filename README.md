@@ -3,12 +3,14 @@ Poegie is as delirium orb reroll and data collection tool. It is a deli roll (ho
 
 The main features are: aid to help prevent rerolling over desired deli orbs in the harvest bench, a profits calculator, and data collection to keep track of what deli orbs you have rolled. It is designed to be Path of Exile ToS compliant.
 
-Poegie is still early in its development, so there may be issues!
+Poegie is still early in its development, so there may be issues. Also it still looks awful, but functionality first!
+
 # Installation
 ## Prerequisites (AutoHotKey)
 Poegie uses AutoHotKey to intercept inputs. This is what allows the app to stop you from rolling over things. The app relies on the AutoHotKey executable and is expected to be in the PATH.
 
 Download and install v1.X (not version 2) from the [ahk website](https://www.autohotkey.com/download/)
+
 ## Download poegie
 - Download `main.zip` from the [latest releases](https://github.com/Philimanjar0/poegie/releases) tab. 
 - Unzip it wherever you would like. 
@@ -17,8 +19,27 @@ Download and install v1.X (not version 2) from the [ahk website](https://www.aut
 	- Windows might remove the exe. Just disable it to run it once, and turn it back on.
 - If you want to see some logging, you can run it from a command prompt instead.
 
+### Running from source
+In case you want to run the latest commits, or you would like to make and test changes yourself.
+- clone this repo
+	`git clone https://github.com/Philimanjar0/poegie.git`
+- navigate to project root 
+	`cd poegie`
+- create the virtual environment. This can be wherever you want, but its nice to keep it in the project directory.
+	`python -m venv /venv`
+- activate the virtual environment
+	`.\venv\Scripts\activate`
+- install dependencies
+	`pip install -r requirements.txt`
+- run the app
+	`python .\src\main.py`
+
+### Building executable
+- run the build script
+	`build.bat`
+
 ## Side Dishes
-I recommend using X-Mouse Button Control and binding scroll wheel up/down to left click, and configure it for PoE only. This is helpful in general, but particularly helpful for rolling the the harvest bench when you cannot roll over what you want.
+I recommend using [X-Mouse Button Control](https://www.highrez.co.uk/downloads/xmousebuttoncontrol.htm) and binding scroll wheel up/down to left click, and configure it for PoE only. This is helpful in general, but particularly helpful for rolling the the harvest bench with poegie.
 
 # How to use
 There are 3 tabs that each do their own thing: config, profits calculator, and data collection. The config tab is the main tab used for rerolling. The other two tabs are helpful as references.
@@ -55,4 +76,4 @@ You have two options for bug reporting
 - Create a github issue
 
 # Help and discussion
-Join the discord for help, bugs, discussion, and whatever else. 
+Join the discord for help, bugs, discussion, and whatever else.

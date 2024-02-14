@@ -16,63 +16,6 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QTabWidget
 from togglebuttons import TargetWindowButton, FeatureEnableToggle
 from WindowFocusManager import WindowFocusManager
 
-# must do (0.1.0)
-# [x] get the config tab working, finish the refactor
-# [x] vision stuff for 3.23 (4 hours)
-#   [x] take all references
-#   [x] add a debug tab?
-#   [x] edit the enum
-#   [x] processing improvements
-#       [x] better background color thresholding
-#       [x] how many "bins"? (8 right now?)
-#   [x] accuracy on all orbs
-#      [x] armor doesnt work rn
-#   [x] error handling, what happens on bad results?
-#       [x] if keypoints != 1, do nothing
-#   [x] img process when removing from the window
-# [x] full flowchart for adding, removing, clicking button, etc. 
-# [ ] hitbox adjustment for the button and window
-# [x] Data Tab
-#   [x] update data dynamically
-#   [x] Some sort of export, not even copy past works
-#   [ ] "are you sure" pop up for clearing data 
-# [ ] final test of all functionality
-# [ ] release (2 hours)
-#   [ ] clean up imports
-#   [ ] documentation of methods
-#   [ ] requirements.txt
-#   [x] logging https://stackoverflow.com/questions/6386698/how-to-write-to-a-file-using-the-logging-python-module
-#   [ ] remake git repo with good structure
-#   [ ] readme
-#   [ ] build executable
-#   [ ] fully test executable
-#   [ ] publish public git repo
-# [ ] make known, video, discord, streamer?
-
-# BUGS 
-# [x] Investigate if not tabbed in messes with the flags and stuff
-# [x] Changing settings, disabling/reenabling should reset the "last seen" flag to allow rolling on accident.
-# [x] data did not save
-# [x] data reset doesnt work, whispering has "1"
-# [x] if the app crashes, AHK threads are still running eating left click
-# [x] data export button should be horizontal
-# [x] moving the window around changes where the icon ends up in the "icon" button
-# [x] error in image stuff can crash the app
-# [x] can roll over first orb put into window
-
-# stretch goals
-# [ ] scroll bar on calcs tab (1.0)
-# [x] export data to CSV (0.1)
-# [ ] reorganize config tab (TBD)
-# [ ] save last inputs of config tab to settings (0.1.1)
-# [ ] debug tab for prod (0.2.0)
-#   [ ] sub tabs
-#      [ ] finding logs
-#      [ ] image stuff (what we already have but nicer?)
-#      [ ] cached data (viewer maybe? button to clear)
-
-
-
 class Main(QMainWindow):
     def __init__(self, close_callback):
         QMainWindow.__init__(self)
@@ -99,7 +42,9 @@ class Main(QMainWindow):
         tabs.addTab(self.configTab, "config")
         tabs.addTab(self.calcsTab, "calculator")
         tabs.addTab(self.dataTab, "data")
-        tabs.addTab(self.debugTab, "debug")
+
+        # Uncomment the following to debug the openCV stuff
+        # tabs.addTab(self.debugTab, "debug")
 
         self.init_window_settings()
 
