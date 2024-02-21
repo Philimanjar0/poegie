@@ -1,5 +1,4 @@
 from ahk import AHK
-from ahk._sync.transport import AhkExecutableNotFoundError
 from ahk.directives import MaxHotkeysPerInterval, NoTrayIcon
 import clipboard
 
@@ -11,17 +10,29 @@ class InputOutputManager:
         ]
         try:
             self.ahk = AHK(directives=directives)
-        except AhkExecutableNotFoundError as e:
+        except EnvironmentError as e:
             ErrorPopup("Could not start AutoHotKey. It is likely not installed. \nPlease click \"Show Details\" for an automatic download link", "https://www.autohotkey.com/download/ahk-install.exe", True)
 
-        self.ahk.add_hotkey('LButton up', callback=lambda : self.ahk.key_up('LButton'))
-        self.ahk.add_hotkey('LButton', callback=lambda : self.callback('LButton'))
+        self.ahk.add_hotkey('*LButton up', callback=lambda : self.callback_up())
+        self.ahk.add_hotkey('*LButton', callback=lambda : self.callback_down())
+
         self.input_passthrough_condition = input_passthrough_condition
         self.start()
 
-    def callback(self, input):
+    def callback_down(self):
         if (self.input_passthrough_condition(self.ahk.get_mouse_position(coord_mode='Screen'))):
-            self.ahk.key_down(input)
+            if (self.ahk.key_state('Control')):
+                self.ahk.key_down("Control")
+                self.ahk.key_down("LButton")
+            else:
+                self.ahk.key_down("LButton")
+
+    def callback_up(self):
+        if (self.ahk.key_state('Control')):
+            self.ahk.key_down("Control")
+            self.ahk.key_up("LButton")
+        else:
+            self.ahk.key_up("LButton")
 
     def copyToClipboard(self):
         lastClipboard = clipboard.paste()

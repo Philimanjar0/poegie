@@ -99,7 +99,7 @@ class Main(QMainWindow):
                     return False
                 # This is just a normal reroll, increment and unblock the input.
                 if (self.button_pressed_last == True):
-                    print("incrementing {imageFound}")
+                    print(f"incrementing {imageFound}")
                     self.dataTab.increment(imageFound)
                 self.button_pressed_last = True
                 self.last_seen = imageFound
