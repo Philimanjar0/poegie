@@ -12,11 +12,11 @@ Poegie uses AutoHotKey to intercept inputs. This is what allows the app to stop 
 Download and install v1.X (not version 2) from the [ahk website](https://www.autohotkey.com/download/)
 
 ## Download poegie
-- Download `main.zip` from the [latest releases](https://github.com/Philimanjar0/poegie/releases) tab. 
+- Download `poegie.zip` from the [latest releases](https://github.com/Philimanjar0/poegie/releases) tab. 
 - Unzip it wherever you would like. 
-- Run `main.exe`
+- Run `poegie.exe`
 	- Windows Defender might complain. Pyinstaller is used to build the exe, which is typically also used to pack malware. Windows knows this and throws a fit. Poegie is not malware.
-	- Windows might remove the exe. Just disable it to run it once, and turn it back on.
+	- Windows might remove the exe. Just disable defender to run it once, and turn it back on.
 - If you want to see some logging, you can run it from a command prompt instead.
 
 ### Running from source
@@ -35,7 +35,7 @@ In case you want to run the latest commits, or you would like to make and test c
 	`python .\src\main.py`
 
 ### Building executable
-- run the build script
+- run the build script (need [pyinstaller](https://pyinstaller.org/en/stable/))
 	`build.bat`
 
 ## Side Dishes
