@@ -14,7 +14,6 @@ from mss import mss
 from PyQt5.QtCore import QSize, QPoint, QSettings, Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QTabWidget
 from togglebuttons import TargetWindowButton, FeatureEnableToggle
-from WindowFocusManager import WindowFocusManager
 
 class Main(QMainWindow):
     def __init__(self, close_callback):
@@ -36,7 +35,6 @@ class Main(QMainWindow):
         self.debugTab = DebugTab(self.configTab.target_window)
         self.button_pressed_last = False
         self.imageProcessor = ImageProcessor()
-        self.windowFocusManager = WindowFocusManager()
         self.hotkeys_manager = InputOutputManager(input_passthrough_condition=lambda pos : self.trigger_check(pos))  
         
         tabs.addTab(self.configTab, "config")
@@ -76,12 +74,6 @@ class Main(QMainWindow):
             self.selected_for_stop[index] = False
 
     def trigger_check(self, mouse_position):
-        if self.windowFocusManager.shouldPoeBeInFocus():
-            # This is to solve, where the user has another window in focus (such as the app) in front of poe.
-            # If they do, and they click on the item in the bench, then copying the item text does not work, because the keyboard focus is not POE.
-            # This will check if poe can be in the foreground (mouse is within the window, and no visible windows are on top of it) and focus it.
-            self.windowFocusManager.putPoeInFocus()
-        
         if (not self.configTab.target_window.isVisible()
                 and self.configTab.enable_button.toggle_state):
             if (self.configTab.target_window.bench_button_rect.contains(mouse_position[0], mouse_position[1])):
@@ -91,8 +83,6 @@ class Main(QMainWindow):
                     return True
                 elif self.configTab.should_stop_on_index(imageFound):
                     print("Found a desired item, blocking reroll")
-                    self.last_seen = imageFound
-                    self.button_pressed_last = True
                     return False
                 elif imageFound == self.last_seen:
                     print("duplicate duplicate item, blocking reroll")

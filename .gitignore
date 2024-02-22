@@ -163,4 +163,9 @@ cython_debug/
 **/.DS_Store
 **/._.DS_Store
 
+# Custom
+# logging will go here
 logs/
+
+# Test script for prototyping and debugging
+scratch.py

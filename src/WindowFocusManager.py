@@ -2,6 +2,7 @@ import pygetwindow as gw
 import win32gui
 import win32api
 
+# [ ] TODO Deprecated, remove dependencies
 class WindowFocusManager():
     def getVisibleWindowsAtCursor(self):
         tup = win32api.GetCursorPos()
