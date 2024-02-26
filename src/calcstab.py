@@ -64,15 +64,15 @@ class CalcsTab(QWidget):
             return
         
         lifeForcePerDiv = self.readInputAsFloat(self.lifeforceEntry)
-        if lifeForcePerDiv == None:
+        if lifeForcePerDiv == None or lifeForcePerDiv < 1:
             return
         lifeForcePerDiv = 1 / lifeForcePerDiv
 
-        numRolls = 1/(numSuccess * 1/19)
+        numRolls = 1/(numSuccess * 1/16)
         lifeForceCost = (numRolls * 30) * lifeForcePerDiv
 
         orbCost = self.readInputAsFloat(self.bulkEntry)
-        if orbCost == None:
+        if orbCost == None or orbCost < 1:
             return
         orbCost = 1/orbCost
         

@@ -22,9 +22,15 @@ class InputOutputManager:
         self.input_passthrough_condition = input_passthrough_condition
         self.start()
 
+        # Sometimes an inputs can come in too fast. Need to block the LButton UP until LButton DOWN completes
+        # This can happen especially if using something external to send clicks (X-Mouse)
+        self.processing_click_down = False
+        self.need_to_immediately_release = True
+
     def callback_down(self):
         # Set focus on the top visible window, this could cause some performance issues as it needs to be a blocking call.
         # [ ] TODO (1.0) Optimize to change focus only if needed (if top isnt already focused, or only to copy text)
+        self.processing_click_down = True
         self.ahk.win_get_from_mouse_position(blocking=True).activate(blocking=False)
         if (self.input_passthrough_condition(self.ahk.get_mouse_position(coord_mode='Screen', blocking=True))):
             if (self.ahk.key_state(key_name='Control', mode='P', blocking=True)):
@@ -32,13 +38,20 @@ class InputOutputManager:
                 self.ahk.key_down("LButton")
             else:
                 self.ahk.key_down("LButton")
+        self.processing_click_down = False
+        if (self.need_to_immediately_release):
+            self.callback_up()
 
     def callback_up(self):
-        if (self.ahk.key_state(key_name='Control', mode='P')):
+        if (self.processing_click_down):
+            self.need_to_immediately_release = True
+            return
+        elif (self.ahk.key_state(key_name='Control', mode='P')):
             self.ahk.key_down("Control")
             self.ahk.key_up("LButton")
         else:
             self.ahk.key_up("LButton")
+        self.need_to_immediately_release = False
 
     def copyToClipboard(self):
         # [ ] TODO can use AHK for clipboard management

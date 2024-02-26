@@ -2,10 +2,14 @@ import sys
 
 from mainwindow import Main
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtGui import QFont
 
 import sys
 
 app = QApplication([])
+font = QFont()
+font.setPointSize(11)
+app.setFont(font)
 
 def app_shutdown(event):
     app.quit()

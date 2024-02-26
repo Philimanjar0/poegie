@@ -56,10 +56,9 @@ class DataTab(QWidget):
         fileNames = []
         dialog.exec_()
         fileNames = dialog.selectedFiles()
-        fileName = fileNames[0]
         if not len(fileNames) == 1:
-            print("too many files selected")
             return
+        fileName = fileNames[0]
         if not fileName.endswith(".csv"):
             fileName += ".csv"
         print(','.join(reference_enum))
