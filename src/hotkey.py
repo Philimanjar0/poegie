@@ -31,7 +31,12 @@ class InputOutputManager:
         # Set focus on the top visible window, this could cause some performance issues as it needs to be a blocking call.
         # [ ] TODO (1.0) Optimize to change focus only if needed (if top isnt already focused, or only to copy text)
         self.processing_click_down = True
-        self.ahk.win_get_from_mouse_position(blocking=True).activate(blocking=False)
+        window = self.ahk.win_get_from_mouse_position(blocking=True)
+        if (not (window.get_title() == "" and window.get_process_name() == "Explorer.EXE")):
+            # If not over the taskbar change focus.
+            # This is hacky? There has to be a better way to get the taskbar "window"
+            window.activate(blocking=False)
+        # if (windows.)
         if (self.input_passthrough_condition(self.ahk.get_mouse_position(coord_mode='Screen', blocking=True))):
             if (self.ahk.key_state(key_name='Control', mode='P', blocking=True)):
                 self.ahk.key_down("Control")
