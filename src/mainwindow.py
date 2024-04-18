@@ -8,6 +8,7 @@ from compare import ImageProcessor
 from configtab import ConfigTab
 from data import DataTab
 from debugtab import DebugTab
+from markov_mat import DataTableTab
 from errorpopup import ErrorPopup
 from hotkey import InputOutputManager
 from mss import mss
@@ -33,13 +34,17 @@ class Main(QMainWindow):
         self.calcsTab = CalcsTab()
         self.dataTab = DataTab()
         self.debugTab = DebugTab(self.configTab.target_window)
+        self.tableTab = DataTableTab()
         self.button_pressed_last = False
         self.imageProcessor = ImageProcessor()
         self.hotkeys_manager = InputOutputManager(input_passthrough_condition=lambda pos : self.trigger_check(pos))  
         
         tabs.addTab(self.configTab, "config")
         tabs.addTab(self.calcsTab, "calculator")
-        tabs.addTab(self.dataTab, "data")
+        tabs.addTab(self.tableTab, "table")
+
+        # [ ] TODO dep, remove this tab
+        # tabs.addTab(self.dataTab, "data")
 
         # Uncomment the following to debug the openCV stuff
         # tabs.addTab(self.debugTab, "debug")
@@ -64,6 +69,7 @@ class Main(QMainWindow):
         self.configTab.close()
         self.calcsTab.close()
         self.dataTab.close()
+        self.tableTab.close()
 
         self.hotkeys_manager.stop()
 
@@ -90,6 +96,7 @@ class Main(QMainWindow):
                 # This is just a normal reroll, increment and unblock the input.
                 if (self.button_pressed_last == True):
                     print(f"incrementing {imageFound}")
+                    self.tableTab.increment(self.last_seen, imageFound)
                     self.dataTab.increment(imageFound)
                 self.button_pressed_last = True
                 self.last_seen = imageFound
@@ -100,6 +107,7 @@ class Main(QMainWindow):
                 if (self.button_pressed_last == True):
                     itemInWindow = self.parseText()
                     if not itemInWindow == self.last_seen:
+                        self.tableTab.increment(self.last_seen, itemInWindow)
                         self.dataTab.increment(itemInWindow)
                 self.last_seen = -1 # Reset the last seen in case of starting with the same orb back to back.
                 self.button_pressed_last = False
