@@ -16,6 +16,13 @@ from PyQt5.QtCore import QSize, QPoint, QSettings, Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QTabWidget
 from togglebuttons import TargetWindowButton, FeatureEnableToggle
 
+# Some TODO items (1h)
+#  [ ] Clean up first tab. Button for enable/disable tracking, and a button for just input blocking
+#  [ ] less naive weights for profit tab?
+#  [x] export and clear buttons for table
+#  [ ] make another release
+#  [ ] re-record a video with script
+
 class Main(QMainWindow):
     def __init__(self, close_callback):
         QMainWindow.__init__(self)
