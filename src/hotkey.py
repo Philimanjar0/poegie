@@ -36,7 +36,6 @@ class InputOutputManager:
             # If not over the taskbar change focus.
             # This is hacky? There has to be a better way to get the taskbar "window"
             window.activate(blocking=False)
-        # if (windows.)
         if (self.input_passthrough_condition(self.ahk.get_mouse_position(coord_mode='Screen', blocking=True))):
             if (self.ahk.key_state(key_name='Control', mode='P', blocking=True)):
                 self.ahk.key_down("Control")

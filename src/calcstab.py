@@ -35,7 +35,7 @@ class CalcsTab(QWidget):
         entryLayout.addWidget(revenueGroup)
 
         # output text
-        outputGroup = QGroupBox("profits (in divines)")
+        outputGroup = QGroupBox("profits (in divines) NOTE that this is not accurate as it assumes equal weights for all orbs")
         output = QVBoxLayout()
         outputGroup.setLayout(output)
         mainLayout.addWidget(outputGroup)

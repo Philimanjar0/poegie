@@ -19,16 +19,36 @@ class FeatureEnableToggle(QPushButton):
     def __init__(self, callback):
         super(FeatureEnableToggle, self).__init__("allow input blocking")
         self.toggle_state = False
+        self.setMaximumWidth(200)
         self.clicked.connect(self.handle_button_update)
         self.callback = callback
-        self.setStyleSheet("background-color : green")
+        self.setStyleSheet("background-color : red")
     
     def handle_button_update(self):
         self.callback()
         if (self.toggle_state):
             self.setText("allow input blocking")
-            self.setStyleSheet("background-color : green")
+            self.setStyleSheet("background-color : red")
         else:
-            self.setText("DISABLE")
-            self.setStyleSheet("background-color : RED")
+            self.setText("disable input blocking")
+            self.setStyleSheet("background-color : green")
+        self.toggle_state = not(self.toggle_state)
+
+class TrackingEnableToggle(QPushButton):
+    def __init__(self, callback):
+        super(TrackingEnableToggle, self).__init__("allow tracking")
+        self.toggle_state = False
+        self.setMaximumWidth(200)
+        self.clicked.connect(self.handle_button_update)
+        self.callback = callback
+        self.setStyleSheet("background-color : red")
+    
+    def handle_button_update(self):
+        self.callback()
+        if (self.toggle_state):
+            self.setText("allow data tracking")
+            self.setStyleSheet("background-color : red")
+        else:
+            self.setText("disable data tracking")
+            self.setStyleSheet("background-color : green")
         self.toggle_state = not(self.toggle_state)

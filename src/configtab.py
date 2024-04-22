@@ -4,8 +4,8 @@ from benchwindow import BenchWindow
 from common import reference_enum
 from mss import mss
 from PyQt5.QtCore import QSettings
-from PyQt5.QtWidgets import QWidget, QCheckBox, QHBoxLayout, QGridLayout, QGroupBox
-from togglebuttons import TargetWindowButton, FeatureEnableToggle
+from PyQt5.QtWidgets import QWidget, QCheckBox, QHBoxLayout, QVBoxLayout, QGridLayout, QGroupBox
+from togglebuttons import TargetWindowButton, FeatureEnableToggle, TrackingEnableToggle
 
 class ConfigTab(QWidget):
     def __init__(self):
@@ -15,17 +15,21 @@ class ConfigTab(QWidget):
 
         layout = QHBoxLayout()
         self.setLayout(layout)
+        button_layout = QVBoxLayout()
+        layout.addLayout(button_layout)
 
         self.selected_for_stop = []
 
         # show bench button
         self.show_target_button = TargetWindowButton(self.target_button_callback)
-        layout.addWidget(self.show_target_button)
+        button_layout.addWidget(self.show_target_button)
         self.target_window = BenchWindow()
 
         # enable button
-        self.enable_button = FeatureEnableToggle(lambda : None) # No callback. TODO dis/enable ahk scripts?
-        layout.addWidget(self.enable_button)
+        self.toggle_blocking = FeatureEnableToggle(lambda : None) # No callback. TODO dis/enable ahk scripts?
+        button_layout.addWidget(self.toggle_blocking)
+        self.toggle_tracking = TrackingEnableToggle(lambda : None)
+        button_layout.addWidget(self.toggle_tracking)
         # selection checkboxes
         self.init_selection_settings()
         layout.addWidget(self.generate_selection_buttons())

@@ -16,12 +16,6 @@ from PyQt5.QtCore import QSize, QPoint, QSettings, Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QTabWidget
 from togglebuttons import TargetWindowButton, FeatureEnableToggle
 
-# Some TODO items (1h)
-#  [ ] Clean up first tab. Button for enable/disable tracking, and a button for just input blocking
-#  [ ] less naive weights for profit tab?
-#  [x] export and clear buttons for table
-#  [ ] make another release
-#  [ ] re-record a video with script
 
 class Main(QMainWindow):
     def __init__(self, close_callback):
@@ -87,8 +81,8 @@ class Main(QMainWindow):
             self.selected_for_stop[index] = False
 
     def trigger_check(self, mouse_position):
-        if (not self.configTab.target_window.isVisible()
-                and self.configTab.enable_button.toggle_state):
+        block_disable = self.configTab.toggle_blocking.toggle_state
+        if (not self.configTab.target_window.isVisible()):
             if (self.configTab.target_window.bench_button_rect.contains(mouse_position[0], mouse_position[1])):
                 print("button pressed")
                 imageFound = self.categorize_image()
@@ -96,15 +90,15 @@ class Main(QMainWindow):
                     return True
                 elif self.configTab.should_stop_on_index(imageFound):
                     print("Found a desired item, blocking reroll")
-                    return False
+                    return block_disable or False
                 elif imageFound == self.last_seen:
                     print("duplicate duplicate item, blocking reroll")
-                    return False
+                    return block_disable or False
                 # This is just a normal reroll, increment and unblock the input.
                 if (self.button_pressed_last == True):
                     print(f"incrementing {imageFound}")
-                    self.tableTab.increment(self.last_seen, imageFound)
-                    self.dataTab.increment(imageFound)
+                    if (self.configTab.toggle_tracking.toggle_state):
+                        self.tableTab.increment(self.last_seen, imageFound)
                 self.button_pressed_last = True
                 self.last_seen = imageFound
                 return True
@@ -114,8 +108,8 @@ class Main(QMainWindow):
                 if (self.button_pressed_last == True):
                     itemInWindow = self.parseText()
                     if not itemInWindow == self.last_seen:
-                        self.tableTab.increment(self.last_seen, itemInWindow)
-                        self.dataTab.increment(itemInWindow)
+                        if (self.configTab.toggle_tracking.toggle_state):
+                            self.tableTab.increment(self.last_seen, itemInWindow)
                 self.last_seen = -1 # Reset the last seen in case of starting with the same orb back to back.
                 self.button_pressed_last = False
         return True

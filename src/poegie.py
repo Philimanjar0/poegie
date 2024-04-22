@@ -7,8 +7,8 @@ from PyQt5.QtGui import QFont
 import sys
 
 app = QApplication([])
-font = QFont()
-font.setPointSize(11)
+font = QFont("Calibri", 12, QFont.Normal)
+# font.setPointSize(11)
 app.setFont(font)
 
 def app_shutdown(event):
