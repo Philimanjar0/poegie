@@ -17,12 +17,12 @@ class TargetWindowButton(QPushButton):
 
 class FeatureEnableToggle(QPushButton):
     def __init__(self, callback):
-        super(FeatureEnableToggle, self).__init__("allow input blocking")
-        self.toggle_state = False
+        super(FeatureEnableToggle, self).__init__("disable input blocking")
+        self.toggle_state = True
         self.setMaximumWidth(200)
         self.clicked.connect(self.handle_button_update)
         self.callback = callback
-        self.setStyleSheet("background-color : red")
+        self.setStyleSheet("background-color : green")
     
     def handle_button_update(self):
         self.callback()
@@ -36,12 +36,12 @@ class FeatureEnableToggle(QPushButton):
 
 class TrackingEnableToggle(QPushButton):
     def __init__(self, callback):
-        super(TrackingEnableToggle, self).__init__("allow tracking")
-        self.toggle_state = False
+        super(TrackingEnableToggle, self).__init__("disable data tracking")
+        self.toggle_state = True
         self.setMaximumWidth(200)
         self.clicked.connect(self.handle_button_update)
         self.callback = callback
-        self.setStyleSheet("background-color : red")
+        self.setStyleSheet("background-color : green")
     
     def handle_button_update(self):
         self.callback()

@@ -1,4 +1,5 @@
-from PyQt5.QtCore import QAbstractTableModel, Qt, QSettings
+from PyQt5 import QtCore
+from PyQt5.QtCore import QAbstractTableModel, Qt, QSettings, QModelIndex
 from PyQt5.QtWidgets import QTableView, QLabel, QGroupBox, QGridLayout, QHeaderView, QTableView, QWidget, QHBoxLayout, QPushButton, QFileDialog
 import numpy as np
 from common import reference_enum
@@ -7,12 +8,10 @@ class SampleData(QAbstractTableModel):
     def __init__(self):
         super().__init__()
         self.settings = QSettings('PoE', 'Hoagie')
-
-        self.underlying_data = []
+        self.underlying_data = [[0 for i in range(len(reference_enum))] for j in range(len(reference_enum))]
         self.init_from_stored()
 
     def init_from_stored(self):
-        self.init_data()
         persisted_data = self.settings.value("mat_data", [])
         if not len(persisted_data) == len(reference_enum):
             print("Invalid settings upon initialization: " + str(persisted_data))
@@ -31,7 +30,11 @@ class SampleData(QAbstractTableModel):
             return None
 
     def init_data(self):
-        self.underlying_data = [[0 for i in range(len(reference_enum))] for j in range(len(reference_enum))]
+        size = len(reference_enum)
+        for r in range(size):
+            for c in range(size):
+                self.underlying_data[r][c] = 0
+        self.refresh(0, 0, size, size)
 
     def saveSettings(self):
         self.settings.setValue("mat_data", self.underlying_data)
@@ -55,6 +58,10 @@ class SampleData(QAbstractTableModel):
 
     def clear_mapping(self):
         self.mapping = {}
+
+    def refresh(self, index_t, index_l, index_b, index_r):
+        size = len(reference_enum)
+        self.dataChanged.emit(self.createIndex(0, 0), self.createIndex(size, size))
 
 class DataMatrix(QTableView):
     def __init__(self):
@@ -90,6 +97,8 @@ class DataTableTab(QWidget):
     def increment(self, from_index, to_index):
         previous_value = self.table.model.underlying_data[from_index][to_index]
         self.table.model.underlying_data[from_index][to_index] = previous_value + 1
+        # Force a refresh of the table view in case the application is not in focus
+        self.table.viewport().update()
 
     def close(self):
         print("CLOSING TABLE")
@@ -97,8 +106,11 @@ class DataTableTab(QWidget):
 
     def addResetButton(self):
         button = QPushButton("reset data")
-        button.clicked.connect(self.table.model.init_data)
+        button.clicked.connect(self.reset_data)
         self.button_layout.addWidget(button)
+    
+    def reset_data(self):
+        self.table.model.init_data()
 
     def addSaveButton(self):
         button = QPushButton("export to csv")

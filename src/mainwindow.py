@@ -81,7 +81,7 @@ class Main(QMainWindow):
             self.selected_for_stop[index] = False
 
     def trigger_check(self, mouse_position):
-        block_disable = self.configTab.toggle_blocking.toggle_state
+        block_disable = not self.configTab.toggle_blocking.toggle_state
         if (not self.configTab.target_window.isVisible()):
             if (self.configTab.target_window.bench_button_rect.contains(mouse_position[0], mouse_position[1])):
                 print("button pressed")
