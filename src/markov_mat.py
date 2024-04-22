@@ -37,7 +37,6 @@ class SampleData(QAbstractTableModel):
             if total == 0 or val == 0:
                 return QColor(Qt.white)
             ratio = 1 - val/total
-            print(f"val {val} / total {total} = ratio {ratio} to map {255 - int(255.0 * ratio)} and {255 - (int((255.0 - 75) * ratio) + 75)}")
             return QColor(min(int(255.0 * ratio), 190), min(int((255.0 - 100) * ratio) + 100, 220), min(int(255.0 * ratio), 190))
         else:
             return None
