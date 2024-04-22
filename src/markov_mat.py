@@ -1,5 +1,6 @@
 from PyQt5 import QtCore
 from PyQt5.QtCore import QAbstractTableModel, Qt, QSettings, QModelIndex
+from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QTableView, QLabel, QGroupBox, QGridLayout, QHeaderView, QTableView, QWidget, QHBoxLayout, QPushButton, QFileDialog
 import numpy as np
 from common import reference_enum
@@ -22,10 +23,22 @@ class SampleData(QAbstractTableModel):
             for c, value in enumerate(row):
                 self.underlying_data[r][c] = value
     
-    def data(self, index, role):
+    def data(self, index, role=Qt.DisplayRole):
+        val = self.underlying_data[index.row()][index.column()]
         if role == Qt.DisplayRole:
-            return self.underlying_data[index.row()][index.column()]
+            return val
             # return index.row() + index.column()
+        elif role == Qt.BackgroundRole:
+            total = np.amax(self.underlying_data)
+
+            # Alternative display method. Color is painted relative to the total weighting instead of the max.
+            # total = sum(sum(self.underlying_data,[]))
+
+            if total == 0 or val == 0:
+                return QColor(Qt.white)
+            ratio = 1 - val/total
+            print(f"val {val} / total {total} = ratio {ratio} to map {255 - int(255.0 * ratio)} and {255 - (int((255.0 - 75) * ratio) + 75)}")
+            return QColor(min(int(255.0 * ratio), 190), min(int((255.0 - 100) * ratio) + 100, 220), min(int(255.0 * ratio), 190))
         else:
             return None
 
