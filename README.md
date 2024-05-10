@@ -15,8 +15,7 @@ Download and install v1.X (not version 2) from the [ahk website](https://www.aut
 - Download `poegie.zip` from the [latest releases](https://github.com/Philimanjar0/poegie/releases) tab. 
 - Unzip it wherever you would like. 
 - Run `poegie.exe`
-	- Windows Defender might complain. Pyinstaller is used to build the exe, which is typically also used to pack malware. Windows knows this and throws a fit. Poegie is not malware.
-	- Windows might remove the exe. Just disable defender to run it once, and turn it back on.
+	- Windows Defender might complain that it is from an "unknown publisher". This is because the EXE is unsigned, as the process to get a certificate and sign it is expensive.
 - If you want to see some logging, you can run it from a command prompt instead.
 
 ### Running from source
